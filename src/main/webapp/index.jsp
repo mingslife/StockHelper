@@ -2,6 +2,12 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+Enumeration<String> headers = request.getHeaderNames();
+while (headers.hasMoreElements()) {
+	String header = headers.nextElement();
+	String value = request.getHeader(header);
+	System.out.println(header + ": " + value);
+}
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
