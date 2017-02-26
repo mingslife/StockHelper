@@ -24,7 +24,7 @@ public class StockServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		
-		Thread stockWatchingThread = new Thread(new StockWatchingTask("http://hq.sinajs.cn/list=sz002352"));
+		Thread stockWatchingThread = new Thread(new StockWatchingTask(request.getServletContext(), "http://hq.sinajs.cn/list=sz002352"));
 //		Thread stockWatchingThread = new Thread(new StockWatchingTask("http://localhost:8080/StockHelper/index.jsp"));
 		stockWatchingThread.start();
 	}

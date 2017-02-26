@@ -1,5 +1,10 @@
 package com.mingslife.task;
 
+import java.io.File;
+import java.io.FileReader;
+
+import javax.servlet.ServletContext;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -13,6 +18,7 @@ public class StockWatchingTask implements Runnable {
 
 	private OkHttpClient client = new OkHttpClient();
 
+	private ServletContext application;
 	private String url;
 
 	@Override
@@ -29,6 +35,7 @@ public class StockWatchingTask implements Runnable {
 				String returnValue = "test";
 //				Object returnValueObj = Context.javaToJS(returnValue, scope);
 				ScriptableObject.putProperty(scope, "returnValue", returnValue);
+				context.evaluateReader(scope, new FileReader(new File(application.getResource("WEB-INF/rule.js").getPath())), null, 1, null);
 				context.evaluateString(scope, "returnValue = '123';", null, 1, null);
 				Object result = context.evaluateString(scope, "java.lang.System.out.println(returnValue);" + responseText + "hq_str_sz002352;", null, 1, null);
 				System.out.println(result);
@@ -38,7 +45,8 @@ public class StockWatchingTask implements Runnable {
 		}
 	}
 
-	public StockWatchingTask(String url) {
+	public StockWatchingTask(ServletContext application, String url) {
+		this.application = application;
 		this.url = url;
 	}
 }
