@@ -13,3 +13,8 @@ function format(data) {
 	};
 	return result;
 }
+
+function test() {
+	java.lang.System.out.println("test");
+	return "test";
+}

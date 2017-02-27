@@ -32,12 +32,14 @@ public class StockWatchingTask implements Runnable {
 				
 				Context context = Context.enter();
 				Scriptable scope = context.initStandardObjects();
-				String returnValue = "test";
+				String result = "123";
 //				Object returnValueObj = Context.javaToJS(returnValue, scope);
-				ScriptableObject.putProperty(scope, "returnValue", returnValue);
+				Object resultObj = Context.javaToJS(result, scope);
+				ScriptableObject.putProperty(scope, "result", resultObj);
 				context.evaluateReader(scope, new FileReader(new File(application.getResource("WEB-INF/rule.js").getPath())), null, 1, null);
-				context.evaluateString(scope, "returnValue = '123';", null, 1, null);
-				Object result = context.evaluateString(scope, "java.lang.System.out.println(returnValue);" + responseText + "hq_str_sz002352;", null, 1, null);
+				System.out.println("result = JSON.stringify(format('" + responseText.replaceAll("\n", "") + "'));");
+//				context.evaluateString(scope, "result = JSON.stringify(format('" + responseText + "'));", null, 1, null);
+				context.evaluateString(scope, "result = test();", null, 1, null);
 				System.out.println(result);
 			}
 		} catch (Exception e) {
